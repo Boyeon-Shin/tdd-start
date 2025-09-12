@@ -14,15 +14,17 @@ public record SellerSignUpController() {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         String usernameRegex = "^[a-zA-Z0-9_-]*$";
 
-        if (command.email() == null || command.email().contains("@") == false || command.email().endsWith("@")
-                || command.email().matches(emailRegex) == false || command.username() == null || command.username()
-                .isBlank() || command.username().length() < 3 || command.username().matches(usernameRegex) == false
-                || command.password() == null) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.password().length() < 8) {
-            return ResponseEntity.badRequest().build();
+        if (command.email() != null && command.email().contains("@") != false && !command.email().endsWith("@")
+                && command.email().matches(emailRegex) != false && command.username() != null && !command.username()
+                .isBlank() && command.username().length() >= 3 && command.username().matches(usernameRegex) != false
+                && command.password() != null) {
+            if (command.password().length() < 8) {
+                return ResponseEntity.badRequest().build();
+            } else {
+                return ResponseEntity.noContent().build();
+            }
         } else {
-            return ResponseEntity.noContent().build();
-        }
+    return ResponseEntity.badRequest().build();
+}
     }
 }
