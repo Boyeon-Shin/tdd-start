@@ -113,7 +113,7 @@ public class POST_specs {
         //assert
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(204);
     }
-    
+
 
     @Test
     void password_속성이_지정되지_않으면_400_Bad_Request_상태코드를_반환한다(@Autowired TestRestTemplate client) {
@@ -138,6 +138,23 @@ public class POST_specs {
 
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(400);
     }
+
+    @Test
+    void email_속성에_이미_존재하는_이메일_주소가_지정되면_400_Bad_Request_상태코드를_반환한다(@Autowired TestRestTemplate client) {
+        String email = "seller@test.com";
+
+        client.postForEntity("/seller/signUp",
+                new CreateSellerCommand(email, "seller", "password"), Void.class);
+
+        ResponseEntity<Void> response = client.postForEntity(
+                "/seller/signUp",
+                new CreateSellerCommand(email, "seller", "password"), Void.class);
+
+        Assertions.assertThat(response.getStatusCode().value()).isEqualTo(400);
+    }
+
+
+
 }
 
 
