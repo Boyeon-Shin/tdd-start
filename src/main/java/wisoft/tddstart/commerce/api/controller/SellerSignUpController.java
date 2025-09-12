@@ -9,7 +9,7 @@ import wisoft.tddstart.commerce.command.CreateSellerCommand;
 @RestController
 public record SellerSignUpController() {
     public static final String EMAIL_REGEX = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
-    public static final String USERNAME_REGEX = "[a-zA-Z0-9_-]*$";
+    public static final String USERNAME_REGEX = "[a-zA-Z0-9_-]+$";
 
 
     @PostMapping("/seller/signUp")
@@ -22,22 +22,20 @@ public record SellerSignUpController() {
     }
 
     private static boolean isCommandValid(final CreateSellerCommand command) {
-        String email = command.email();
-        boolean emailValid = email != null
-                && email.contains("@")
-                && !email.endsWith("@")
-                && email.matches(EMAIL_REGEX);
+        return isEmailValid(command.email())
+                && isUserNameValid(command.username())
+                && isPasswordValid(command.password());
+    }
 
-        String username = command.username();
-        boolean userNameValid = username != null
-                && !username.isBlank()
-                && username.length() >= 3
-                && username.matches(USERNAME_REGEX);
+    private static boolean isEmailValid(final String email) {
+        return email != null && email.matches(EMAIL_REGEX);
+    }
 
-        String password = command.password();
-        boolean passwordValid = password != null
-                && password.length() >= 8;
+    private static boolean isUserNameValid(final String username) {
+        return username != null && username.matches(USERNAME_REGEX);
+    }
 
-        return emailValid && userNameValid && passwordValid;
+    private static boolean isPasswordValid(final String password) {
+        return password != null && password.length() >= 8;
     }
 }
