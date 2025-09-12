@@ -13,23 +13,11 @@ public record SellerSignUpController() {
     ResponseEntity<?> signUp(@RequestBody CreateSellerCommand command) {
         String emailRegex = "^[a-zA-Z0-9._%+-]+@[a-zA-Z0-9.-]+\\.[a-zA-Z]{2,6}$";
         String usernameRegex = "^[a-zA-Z0-9_-]*$";
-        if (command.email() == null) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.email().contains("@") == false) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.email().endsWith("@")) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.email().matches(emailRegex) == false) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.username() == null) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.username().isBlank()) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.username().length() < 3) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.username().matches(usernameRegex) == false) {
-            return ResponseEntity.badRequest().build();
-        } else if (command.password() == null) {
+
+        if (command.email() == null || command.email().contains("@") == false || command.email().endsWith("@")
+                || command.email().matches(emailRegex) == false || command.username() == null || command.username()
+                .isBlank() || command.username().length() < 3 || command.username().matches(usernameRegex) == false
+                || command.password() == null) {
             return ResponseEntity.badRequest().build();
         } else if (command.password().length() < 8) {
             return ResponseEntity.badRequest().build();
