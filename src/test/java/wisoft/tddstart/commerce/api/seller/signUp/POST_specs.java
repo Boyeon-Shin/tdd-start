@@ -1,6 +1,7 @@
 package wisoft.tddstart.commerce.api.seller.signUp;
 
 import static wisoft.tddstart.EmailGenerator.generateEmail;
+import static wisoft.tddstart.PasswordGenerator.generatePassword;
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
 
 import org.assertj.core.api.Assertions;
@@ -12,7 +13,10 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import wisoft.tddstart.TddStartApplication;
+import wisoft.tddstart.commerce.Seller;
+import wisoft.tddstart.commerce.SellerRepository;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 
 @SpringBootTest(
@@ -169,6 +173,31 @@ public class POST_specs {
                 new CreateSellerCommand(generateEmail(), username, "password"), Void.class);
 
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(400);
+    }
+
+
+    @Test
+    void 비밀번호를_올바르게_암호화한다(@Autowired TestRestTemplate client,
+                          @Autowired SellerRepository sellerRepository,
+                          @Autowired PasswordEncoder encoder) {
+
+        var command = new CreateSellerCommand(generateEmail(), generateUsername(), generatePassword());
+
+        //act
+        client.postForEntity("/seller/signUp", command, Void.class);
+
+        //assert
+        Seller seller = sellerRepository
+                        .findAll()
+                        .stream()
+                        .filter(x -> x.getEmail().equals(command.email()))
+                        .findFirst()
+                        .orElseThrow();
+
+        String actual = seller.getHashedPassword();
+
+        Assertions.assertThat(actual).isNotNull();
+        Assertions.assertThat(encoder.matches(command.password(), actual)).isTrue();
     }
 }
 
