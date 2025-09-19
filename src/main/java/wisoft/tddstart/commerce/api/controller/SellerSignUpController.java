@@ -18,18 +18,19 @@ public record SellerSignUpController(SellerRepository sellerRepository) {
     @PostMapping("/seller/signUp")
     ResponseEntity<?> signUp(@RequestBody CreateSellerCommand command) {
         if (isCommandValid(command) == false) {
-            return ResponseEntity.noContent().build();
+            return ResponseEntity.badRequest().build();
         }
+
         var seller = new Seller();
         seller.setEmail(command.email());
+        seller.setUsername(command.username());
 
         try {
             sellerRepository.save(seller);
-        }catch (DataIntegrityViolationException e) {
-            ResponseEntity.badRequest().build();
+        } catch (DataIntegrityViolationException e) {
+            return ResponseEntity.badRequest().build();
         }
-
-        return ResponseEntity.badRequest().build();
+        return ResponseEntity.noContent().build();
     }
 
     private static boolean isCommandValid(final CreateSellerCommand command) {
