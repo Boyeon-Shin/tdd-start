@@ -21,15 +21,15 @@ import wisoft.tddstart.commerce.result.AccessTokenCarries;
 )
 @DisplayName("POST /seller/issueToken")
 public class POST_specs {
-    
+
     @Test
-    void 올바르게_요청하면_200_OK_상태코드를_반환한다 (@Autowired TestRestTemplate client) {
+    void 올바르게_요청하면_200_OK_상태코드를_반환한다(@Autowired TestRestTemplate client) {
         String email = generateEmail();
         String password = generatePassword();
 
         //Arrange
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(),password),
+                new CreateSellerCommand(email, generateUsername(), password),
                 Void.class);
 
         //Act
@@ -41,4 +41,53 @@ public class POST_specs {
         //Assert
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(200);
     }
+
+
+    @Test
+    void 올바르게_요청하면_접근_토큰을_반환한다(@Autowired TestRestTemplate client) {
+        String email = generateEmail();
+        String password = generatePassword();
+
+        //Arrange
+        client.postForEntity("/seller/signUp",
+                new CreateSellerCommand(email, generateUsername(), password),
+                Void.class);
+
+        //Act
+        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+                "/seller/issueToken",
+                new IssueSellerToken(email, password),
+                AccessTokenCarries.class);
+
+        //Assert
+        Assertions.assertThat(response.getBody()).isNotNull();
+        Assertions.assertThat(response.getBody().accessToken()).isNotNull();
+    }
+
+
+    void 접근_토큰은_JWT_형식을_따른다(@Autowired TestRestTemplate client) {
+
+        String email = generateEmail();
+        String password = generatePassword();
+
+        //Arrange
+        client.postForEntity("/seller/signUp",
+                new CreateSellerCommand(email, generateUsername(), password),
+                Void.class);
+
+        //Act
+        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+                "/seller/issueToken",
+                new IssueSellerToken(email, password),
+                AccessTokenCarries.class);
+
+        //Assert
+        Assertions.assertThat(response.getBody()).isNotNull();
+        Assertions.assertThat(response.getBody().accessToken()).isNotNull();
+        Assertions.assertThat(response.getBody().accessToken()).contains(".");
+    }
 }
+
+
+
+
