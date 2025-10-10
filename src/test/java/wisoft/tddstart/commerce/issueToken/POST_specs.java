@@ -11,17 +11,14 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
-import wisoft.tddstart.TddStartApplication;
+import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
 import wisoft.tddstart.commerce.result.AccessTokenCarries;
 
-@SpringBootTest(classes = TddStartApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-)
+@CommerceApiTest
 @DisplayName("POST /seller/issueToken")
 public class POST_specs {
 

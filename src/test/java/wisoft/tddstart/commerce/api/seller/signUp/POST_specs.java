@@ -8,21 +8,18 @@ import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.boot.test.context.SpringBootTest;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import wisoft.tddstart.TddStartApplication;
 import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.SellerRepository;
+import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 
-@SpringBootTest(
-        classes = TddStartApplication.class,
-        webEnvironment = SpringBootTest.WebEnvironment.RANDOM_PORT
-)
+@CommerceApiTest
 @DisplayName("POST/seller/signUp")
 public class POST_specs {
 
@@ -133,11 +130,7 @@ public class POST_specs {
 
 
     @ParameterizedTest
-    @ValueSource(strings = {
-            "",
-            "pass",
-            "pass123"
-    })
+    @MethodSource("wisoft.tddstart.commerce.TestDataSource#invalidPasswords")
     void password_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String password, @Autowired TestRestTemplate client) {
         var command = new CreateSellerCommand(generateEmail(), generateUsername(), password);
 

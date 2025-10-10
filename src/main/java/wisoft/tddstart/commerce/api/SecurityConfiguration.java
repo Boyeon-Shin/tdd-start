@@ -1,6 +1,5 @@
 package wisoft.tddstart.commerce.api;
 
-import javax.crypto.interfaces.PBEKey;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -24,10 +23,8 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/seller/signUp").permitAll()
                         .requestMatchers("/seller/issueToken").permitAll()
+                        .requestMatchers("/shopper/signUp").permitAll()
                 )
                 .build();
     }
-
-
-
 }
