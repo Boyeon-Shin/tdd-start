@@ -1,4 +1,4 @@
-package wisoft.tddstart.commerce.issueToken;
+package wisoft.tddstart.commerce.api.seller.issueToken;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;

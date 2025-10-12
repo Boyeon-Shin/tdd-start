@@ -186,6 +186,7 @@ public class POST_specs {
         assertThat(actual).isNotNull();
         assertThat(encoder.matches(command.password(), actual)).isTrue();
     }
+
 }
 
 
