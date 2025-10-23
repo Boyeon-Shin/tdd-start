@@ -200,7 +200,7 @@
 - curl 명령 예시
   ```bash
   curl -i -X GET 'http://localhost:8080/seller/me' \
-  -H 'Authorization: Bearer {accessToken}'
+  -H 'Authorization: Bearer eyJhbGciOiJIUzI1NiJ9.eyJzdWIiOiIyZGU5N2Y1Ni01ZDNlLTRmZmItOWVlNy02YjQ3ZmJjYWRiMGIifQ.hBZ9ZhYmTzwtGTFV_weLIQL05AWUS_-hCGn31INP0MM'
   ```
 
 성공 응답
@@ -219,4 +219,4 @@
 - [x] 접근 토큰을 사용하지 않으면 401 Unauthorized 상태코드를 반환한다
 - [x] 서로 다른 판매자의 식별자는 서로 다르다
 - [x] 같은 판매자의 식별자는 항상 같다
-- [ ] 판매자의 기본 정보가 올바르게 설정된다
+- [x] 판매자의 기본 정보가 올바르게 설정된다
