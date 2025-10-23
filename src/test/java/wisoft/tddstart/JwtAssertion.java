@@ -20,7 +20,7 @@ public class JwtAssertion {
 
     private static boolean isBase64EncodedJson(final String s) {
         try {
-            new ObjectMapper().readTree(Base64.getDecoder().decode(s));
+            new ObjectMapper().readTree(Base64.getUrlDecoder().decode(s));
             return true;
         } catch (Exception e) {
             return false;
@@ -29,7 +29,7 @@ public class JwtAssertion {
 
     private static boolean isBased64UrlEncoded(String s) {
         try {
-            Base64.getDecoder().decode(s);
+            Base64.getUrlDecoder().decode(s);
             return true;
         } catch (Exception e) {
             return false;

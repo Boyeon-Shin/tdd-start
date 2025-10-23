@@ -84,7 +84,6 @@ public class POST_specs {
         //Assert
         String actual = requireNonNull(response.getBody().accessToken());
         assertThat(actual).satisfies(conformsToJwtFormat());
-
     }
 
     @Test

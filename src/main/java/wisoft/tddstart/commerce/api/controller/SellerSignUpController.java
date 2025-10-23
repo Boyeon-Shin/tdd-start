@@ -4,6 +4,7 @@ import static wisoft.tddstart.commerce.UserPropertyValidator.isEmailValid;
 import static wisoft.tddstart.commerce.UserPropertyValidator.isPasswordValid;
 import static wisoft.tddstart.commerce.UserPropertyValidator.isUserNameValid;
 
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -26,6 +27,8 @@ public record SellerSignUpController(PasswordEncoder passwordEncoder, SellerRepo
         String hashedPassword = passwordEncoder.encode(command.password());
 
         var seller = new Seller();
+        UUID id = UUID.randomUUID();
+        seller.setId(id);
         seller.setEmail(command.email());
         seller.setUsername(command.username());
         seller.setHashedPassword(hashedPassword);

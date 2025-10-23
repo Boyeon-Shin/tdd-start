@@ -187,3 +187,36 @@
 - [x] 접근 토큰은 JWT 형식을 따른다
 - [x] 존재하지 않는 이메일 주소가 사용되면 400 Bad Request 상태코드를 반환한다
 - [x] 잘못된 비밀번호가 사용되면 400 Bad Request 상태코드를 반환한다
+
+### 판매자 정보 조회
+
+요청
+- 메서드: GET
+- 경로: /seller/me
+- 헤더
+  ```
+  Authorization: Bearer {accessToken}
+  ```
+- curl 명령 예시
+  ```bash
+  curl -i -X GET 'http://localhost:8080/seller/me' \
+  -H 'Authorization: Bearer {accessToken}'
+  ```
+
+성공 응답
+- 상태코드: 200 OK
+- 본문
+  ```
+  SellerMeView {
+    id: string(UUID),
+    email: string,
+    username: string
+  }
+  ```
+
+테스트
+- [x] 올바르게 요청하면 200 OK 상태코드를 반환한다
+- [x] 접근 토큰을 사용하지 않으면 401 Unauthorized 상태코드를 반환한다
+- [x] 서로 다른 판매자의 식별자는 서로 다르다
+- [x] 같은 판매자의 식별자는 항상 같다
+- [ ] 판매자의 기본 정보가 올바르게 설정된다

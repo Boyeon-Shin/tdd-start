@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
+import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.SellerRepository;
 import wisoft.tddstart.commerce.api.JwtKeyHolder;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
@@ -23,15 +24,16 @@ public record SellerIssueTokenController(
         return repository
                  .findByEmail(query.email())
                 .filter(seller -> passwordEncoder.matches(query.password(), seller.getHashedPassword()))
-                .map(seller -> composeToken())
+                .map(seller -> composeToken(seller))
                 .map(AccessTokenCarries::new)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }
 
-    private String composeToken() {
+    private String composeToken(Seller seller) {
         return Jwts
                 .builder()
+                .setSubject(seller.getId().toString())
                 .signWith(jwtKeyHolder.key())
                 .compact();
     }
