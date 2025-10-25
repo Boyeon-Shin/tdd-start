@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
-import wisoft.tddstart.commerce.result.AccessTokenCarries;
+import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 
 @CommerceApiTest
 @DisplayName("POST /seller/issueToken")
@@ -33,10 +33,10 @@ public class POST_specs {
                 Void.class);
 
         //Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         //Assert
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(200);
@@ -54,10 +54,10 @@ public class POST_specs {
                 Void.class);
 
         //Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         //Assert
         Assertions.assertThat(response.getBody()).isNotNull();
@@ -76,10 +76,10 @@ public class POST_specs {
                 Void.class);
 
         //Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         //Assert
         String actual = requireNonNull(response.getBody().accessToken());
@@ -93,10 +93,10 @@ public class POST_specs {
         String password = generatePassword();
 
         //Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         //Assert
         assertThat(response.getStatusCode().value()).isEqualTo(400);
@@ -116,10 +116,10 @@ public class POST_specs {
                 Void.class);
 
         //Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/seller/issueToken",
                 new IssueSellerToken(email, wrongPassword),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         //Assert
         assertThat(response.getStatusCode().value()).isEqualTo(400);

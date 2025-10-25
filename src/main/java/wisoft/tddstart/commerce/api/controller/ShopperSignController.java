@@ -4,6 +4,7 @@ import static wisoft.tddstart.commerce.UserPropertyValidator.isEmailValid;
 import static wisoft.tddstart.commerce.UserPropertyValidator.isPasswordValid;
 import static wisoft.tddstart.commerce.UserPropertyValidator.isUserNameValid;
 
+import java.util.UUID;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -22,8 +23,10 @@ public record ShopperSignController(PasswordEncoder passwordEncoder, ShopperRepo
             return ResponseEntity.badRequest().build();
         }
 
+        UUID id = UUID.randomUUID();
         String hashedPassword = passwordEncoder.encode(command.password());
         var shopper = new Shopper();
+        shopper.setId(id);
         shopper.setEmail(command.email());
         shopper.setUserName(command.username());
         shopper.setHashedPassword(hashedPassword);

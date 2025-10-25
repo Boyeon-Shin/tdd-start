@@ -10,7 +10,7 @@ import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.SellerRepository;
 import wisoft.tddstart.commerce.api.JwtKeyHolder;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
-import wisoft.tddstart.commerce.result.AccessTokenCarries;
+import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 
 @RestController
 public record SellerIssueTokenController(
@@ -25,7 +25,7 @@ public record SellerIssueTokenController(
                  .findByEmail(query.email())
                 .filter(seller -> passwordEncoder.matches(query.password(), seller.getHashedPassword()))
                 .map(seller -> composeToken(seller))
-                .map(AccessTokenCarries::new)
+                .map(AccessTokenCarrier::new)
                 .map(ResponseEntity::ok)
                 .orElseGet(() -> ResponseEntity.badRequest().build());
     }

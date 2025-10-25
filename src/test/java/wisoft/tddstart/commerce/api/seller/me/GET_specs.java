@@ -16,7 +16,7 @@ import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
-import wisoft.tddstart.commerce.result.AccessTokenCarries;
+import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 import wisoft.tddstart.commerce.view.SellerMeView;
 
 @CommerceApiTest
@@ -34,9 +34,9 @@ public class GET_specs {
         var command = new CreateSellerCommand(email, username, password);
         client.postForEntity("/seller/signUp", command, Void.class);
 
-        AccessTokenCarries carries = client.postForObject(
+        AccessTokenCarrier carries = client.postForObject(
                 "/seller/issueToken", new IssueSellerToken(email, password),
-                AccessTokenCarries.class
+                AccessTokenCarrier.class
         );
 
         String token = carries.accessToken();
@@ -76,10 +76,10 @@ public class GET_specs {
         var command1 = new CreateSellerCommand(email1, username1, password1);
         client.postForEntity("/seller/signUp", command1, Void.class);
 
-        AccessTokenCarries carries1 = client.postForObject(
+        AccessTokenCarrier carries1 = client.postForObject(
                 "/seller/issueToken",
                 new IssueSellerToken(email1, password1),
-                AccessTokenCarries.class
+                AccessTokenCarrier.class
         );
 
         String token1 = carries1.accessToken();
@@ -92,9 +92,9 @@ public class GET_specs {
         var command2 = new CreateSellerCommand(email2, username2, password2);
         client.postForEntity("/seller/signUp", command2, Void.class);
 
-        AccessTokenCarries carries2 = client.postForObject("/seller/issueToken",
+        AccessTokenCarrier carries2 = client.postForObject("/seller/issueToken",
                 new IssueSellerToken(email2, password2),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         String token2 = carries2.accessToken();
 
@@ -131,17 +131,17 @@ public class GET_specs {
         var command = new CreateSellerCommand(email, username, password);
         client.postForEntity("/seller/signUp", command, Void.class);
 
-        AccessTokenCarries carrier1 = client.postForObject(
+        AccessTokenCarrier carrier1 = client.postForObject(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         String token1= carrier1.accessToken();
 
-        AccessTokenCarries carrier2 = client.postForObject(
+        AccessTokenCarrier carrier2 = client.postForObject(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         String token2 = carrier1.accessToken();
 
@@ -174,10 +174,10 @@ public class GET_specs {
         var command = new CreateSellerCommand(email, username, password);
         client.postForEntity("/seller/signUp", command, Void.class);
 
-        AccessTokenCarries carrier = client.postForObject(
+        AccessTokenCarrier carrier = client.postForObject(
                 "/seller/issueToken",
                 new IssueSellerToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         String token1= carrier.accessToken();
 

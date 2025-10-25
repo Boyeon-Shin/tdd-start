@@ -7,7 +7,6 @@ import static wisoft.tddstart.JwtAssertion.conformsToJwtFormat;
 import static wisoft.tddstart.PasswordGenerator.generatePassword;
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
 
-import org.assertj.core.api.AssertionsForClassTypes;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,7 +15,7 @@ import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.CreateShopperCommand;
 import wisoft.tddstart.commerce.query.IssueShopperToken;
-import wisoft.tddstart.commerce.result.AccessTokenCarries;
+import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 
 @CommerceApiTest
 @DisplayName("POST /shopper/issueToken")
@@ -31,10 +30,10 @@ public class POST_specs {
                 "/shopper/signUp",
                 new CreateShopperCommand(email, generateUsername(), password), Void.class);
 
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/shopper/issueToken",
                 new IssueShopperToken(email, password),
-                AccessTokenCarries.class);
+                AccessTokenCarrier.class);
 
         assertThat(response.getStatusCode().value()).isEqualTo(200);
         assertThat(response.getBody()).isNotNull();
@@ -55,10 +54,10 @@ public class POST_specs {
         );
 
         // Act
-        ResponseEntity<AccessTokenCarries> response = client.postForEntity(
+        ResponseEntity<AccessTokenCarrier> response = client.postForEntity(
                 "/shopper/issueToken",
                 new IssueShopperToken(email, password),
-                AccessTokenCarries.class
+                AccessTokenCarrier.class
         );
 
         // Assert
