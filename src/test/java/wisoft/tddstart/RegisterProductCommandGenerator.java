@@ -3,6 +3,7 @@ package wisoft.tddstart;
 import java.math.BigDecimal;
 import java.util.UUID;
 import java.util.concurrent.ThreadLocalRandom;
+import org.springframework.beans.factory.annotation.Autowired;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
 
 
@@ -15,6 +16,16 @@ public class RegisterProductCommandGenerator {
             generateProductDescription(),
             generateProductPriceAmount(),
             generateProductStockQuantity()
+        );
+    }
+
+    public static RegisterProductCommand generateRegisterProductCommandWithImageUri(String imageUri) {
+        return new RegisterProductCommand(
+                generateProductName(),
+                imageUri,
+                generateProductDescription(),
+                generateProductPriceAmount(),
+                generateProductStockQuantity()
         );
     }
 
