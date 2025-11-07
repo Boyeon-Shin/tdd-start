@@ -1,29 +1,46 @@
 package wisoft.tddstart;
 
+import static java.util.Objects.requireNonNull;
 import static wisoft.tddstart.EmailGenerator.generateEmail;
 import static wisoft.tddstart.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
 
+import java.net.URI;
+import java.util.UUID;
+import org.junit.jupiter.api.Test;
+import org.springframework.boot.test.web.client.LocalHostUriTemplateHandler;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.env.Environment;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 import wisoft.tddstart.commerce.command.CreateShopperCommand;
+import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
 import wisoft.tddstart.commerce.query.IssueShopperToken;
 import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 
 public record TestFixture(TestRestTemplate client) {
+
+    public static TestFixture create(Environment environment) {
+        var client = new TestRestTemplate();
+        var uriTemplateHandler = new LocalHostUriTemplateHandler(environment);
+        client.setUriTemplateHandler(uriTemplateHandler);
+        return new TestFixture(client);
+    }
+
     public void createShopper(final String email, final String username, final String password) {
         var command = new CreateShopperCommand(email, username, password);
         client.postForEntity("/shopper/signUp", command, Void.class);
     }
 
     public String issueShopperToken(final String email, final String password) {
-            AccessTokenCarrier carrier = client().postForObject(
-                    "/shopper/issueToken",
-                    new IssueShopperToken(email, password),
-                    AccessTokenCarrier.class
-            );
+        AccessTokenCarrier carrier = client().postForObject(
+                "/shopper/issueToken",
+                new IssueShopperToken(email, password),
+                AccessTokenCarrier.class
+        );
 
         return carrier.accessToken();
     }
@@ -84,5 +101,21 @@ public record TestFixture(TestRestTemplate client) {
         String password = generatePassword();
         createShopper(email, generateUsername(), password);
         setShopperAsDefaultUser(email, password);
+    }
+
+    public UUID registerProduct() {
+        return registerProduct(generateRegisterProductCommand());
+    }
+
+    public UUID registerProduct(RegisterProductCommand command) {
+        ResponseEntity<Void> response = client.postForEntity(
+                "/seller/products",
+                command,
+                Void.class
+        );
+        URI location = response.getHeaders().getLocation();
+        String path = requireNonNull(location).getPath();
+        String id = path.substring("/seller/products/".length());
+        return UUID.fromString(id);
     }
 }

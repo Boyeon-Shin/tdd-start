@@ -1,5 +1,7 @@
 package wisoft.tddstart.commerce.api;
 
+import static org.springframework.security.oauth2.core.authorization.OAuth2AuthorizationManagers.hasScope;
+
 import javax.crypto.SecretKey;
 import javax.crypto.spec.SecretKeySpec;
 import org.springframework.beans.factory.annotation.Value;
@@ -40,6 +42,7 @@ public class SecurityConfiguration {
                 .authorizeHttpRequests(requests -> requests
                         .requestMatchers("/seller/signUp").permitAll()
                         .requestMatchers("/seller/issueToken").permitAll()
+                        .requestMatchers("/seller/**").access(hasScope("seller"))
                         .requestMatchers("/shopper/signUp").permitAll()
                         .requestMatchers("/shopper/issueToken").permitAll()
                         .anyRequest().authenticated()
