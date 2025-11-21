@@ -340,5 +340,52 @@ Spring의 빈 범위가 영항을 줄 수 있음?
 - [x] 존재하지 않는 상품 식별자를 사용하면 404 Not Found 상태코드를 반환한다
 - [x] 다른 판매자가 등록한 상품 식별자를 사용하면 404 Not Found 상태코드를 반환한다
 - [x] 상품 식별자를 올바르게 반환한다
-- [ ] 상품 정보를 올바르게 반환한다
-- [ ] 상품 등록 시각을 올바르게 반환한다
+- [x] 상품 정보를 올바르게 반환한다
+- [x] 상품 등록 시각을 올바르게 반환한다
+
+
+
+### 판매자 상품 목록 조회
+
+요청
+- 메서드: GET
+- 경로: /seller/products
+- 헤더
+  ```
+  Authorization: Bearer {accessToken}
+  ```
+- curl 명령 예시
+  ```bash
+  curl -i -X GET 'http://localhost:8080/seller/products' \
+  -H 'Authorization: Bearer {accessToken}'
+  ```
+
+성공 응답
+- 상태코드: 200 OK
+- 본문
+  ```
+  ArrayCarrier<SellerProductView> {
+    items: [
+      SellerProductView {
+        id: string(UUID),
+        name: string,
+        imageUri: string,
+        description: string,
+        priceAmount: number,
+        stockQuantity: number,
+        registeredTimeUtc: string(YYYY-MM-DDThh:mm:ss.sss)
+      }
+    ]
+  }
+  ```
+
+정책
+- 상품 목록은 등록 시점 역순으로 정렬되어야 한다
+
+테스트
+- [x] 올바르게 요청하면 200 OK 상태코드를 반환한다
+- [x] 판매자가 등록한 모든 상품을 반환한다 - 목록 검사 테스트
+- [x] 다른 판매자가 등록한 상품이 포함되지 않는다
+- [x] 상품 정보를 올바르게 반환한다
+- [x] 상품 등록 시각을 올바르게 반환한다
+- [ ] 상품 목록을 등록 시점 역순으로 정렬한다

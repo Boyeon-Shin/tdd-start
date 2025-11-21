@@ -1,19 +1,24 @@
 package wisoft.tddstart.commerce.api.seller.products.id;
 
-import static org.assertj.core.api.Java6Assertions.assertThat;
+import static java.time.ZoneOffset.UTC;
+import static java.time.temporal.ChronoUnit.SECONDS;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.within;
 import static wisoft.tddstart.ProductAssertions.isDerivedForm;
 import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
 
+import java.time.LocalDateTime;
 import java.util.UUID;
+import org.apache.coyote.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.TestFixture;
-import wisoft.tddstart.ProductAssertions;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
+import wisoft.tddstart.commerce.view.ArrayCarrier;
 import wisoft.tddstart.commerce.view.SellerProductView;
 
 @CommerceApiTest
@@ -108,5 +113,21 @@ public class GET_specs {
         );
 
         assertThat(actual).satisfies(isDerivedForm(command));
+    }
+
+
+    @Test
+    void 상품_등록_시각을_올바르게_반환한다(@Autowired TestFixture fixture) {
+        fixture.createSellerThenSetAsDefaultUser();
+        LocalDateTime referenceTime = LocalDateTime.now(UTC);
+        UUID id = fixture.registerProduct();
+
+
+        SellerProductView actual = fixture.client().getForObject(
+                "/seller/products/" + id,
+                SellerProductView.class
+        );
+
+        assertThat(actual.registeredTimeUtc()).isCloseTo(referenceTime, within(1, SECONDS));
     }
 }

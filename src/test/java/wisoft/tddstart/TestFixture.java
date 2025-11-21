@@ -7,6 +7,7 @@ import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterPr
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
 
 import java.net.URI;
+import java.util.List;
 import java.util.UUID;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.LocalHostUriTemplateHandler;
@@ -117,5 +118,9 @@ public record TestFixture(TestRestTemplate client) {
         String path = requireNonNull(location).getPath();
         String id = path.substring("/seller/products/".length());
         return UUID.fromString(id);
+    }
+
+    public List<UUID> registerProducts() {
+        return List.of(registerProduct(), registerProduct(), registerProduct());
     }
 }
