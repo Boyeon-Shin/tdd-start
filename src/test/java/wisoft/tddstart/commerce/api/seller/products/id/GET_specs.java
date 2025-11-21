@@ -9,7 +9,6 @@ import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterPr
 
 import java.time.LocalDateTime;
 import java.util.UUID;
-import org.apache.coyote.Response;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
@@ -18,7 +17,6 @@ import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.TestFixture;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
-import wisoft.tddstart.commerce.view.ArrayCarrier;
 import wisoft.tddstart.commerce.view.SellerProductView;
 
 @CommerceApiTest

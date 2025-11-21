@@ -1,4 +1,4 @@
 package wisoft.tddstart.commerce.result;
 
-public class PageCarrier {
+public record PageCarrier<T> (T[] items, String continuationToken) {
 }

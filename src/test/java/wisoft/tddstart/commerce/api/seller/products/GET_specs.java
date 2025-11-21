@@ -11,24 +11,20 @@ import static wisoft.tddstart.ProductAssertions.isDerivedForm;
 import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
 
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
-import java.util.Comparator;
 import java.util.List;
 import java.util.UUID;
 import javax.naming.Referenceable;
 import org.assertj.core.api.Assertions;
-import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.annotation.AuthenticationPrincipal;
 import wisoft.tddstart.TestFixture;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
-import wisoft.tddstart.commerce.view.ArrayCarrier;
+import wisoft.tddstart.commerce.result.ArrayCarrier;
 import wisoft.tddstart.commerce.view.SellerProductView;
 
 @CommerceApiTest

@@ -300,10 +300,6 @@
 - [x] imageUri 속성이 URI 형식을 따르지 않으면 400 Bad Request 상태코드를 반환한다
 - [x] 올바르게 요청하면 등록된 상품 정보에 접근하는 Location 헤더를 반환한다
 
-부수효과 때문에 실행 순서에 따라 결과를 달라지는 문제가 발생
-Spring의 빈 범위가 영항을 줄 수 있음?
-
-
 ### 판매자 상품 조회
 
 요청
@@ -342,8 +338,6 @@ Spring의 빈 범위가 영항을 줄 수 있음?
 - [x] 상품 식별자를 올바르게 반환한다
 - [x] 상품 정보를 올바르게 반환한다
 - [x] 상품 등록 시각을 올바르게 반환한다
-
-
 
 ### 판매자 상품 목록 조회
 
@@ -384,8 +378,65 @@ Spring의 빈 범위가 영항을 줄 수 있음?
 
 테스트
 - [x] 올바르게 요청하면 200 OK 상태코드를 반환한다
-- [x] 판매자가 등록한 모든 상품을 반환한다 - 목록 검사 테스트
+- [x] 판매자가 등록한 모든 상품을 반환한다
 - [x] 다른 판매자가 등록한 상품이 포함되지 않는다
 - [x] 상품 정보를 올바르게 반환한다
 - [x] 상품 등록 시각을 올바르게 반환한다
+- [x] 상품 목록을 등록 시점 역순으로 정렬한다
+
+### 구매자 상품 탐색
+
+요청
+- 메서드: GET
+- 경로: /shopper/products
+- 쿼리 매개변수
+  ```
+  continuationToken: string?
+  ```
+- 헤더
+  ```
+  Authorization: Bearer {accessToken}
+  ```
+- curl 명령 예시
+  ```bash
+  curl -i -X GET 'http://localhost:8080/shopper/products?continuationToken={continuationToken}' \
+  -H 'Authorization: Bearer {accessToken}'
+  ```
+
+성공 응답
+- 상태코드: 200 OK
+- 본문
+  ```
+  PageCarrier<ProductView> {
+    items: [
+      ProductView {
+        id: string(UUID),
+        seller: SellerView {
+          id: string(UUID),
+          username: string
+        },
+        name: string,
+        imageUri: string,
+        description: string,
+        priceAmount: number,
+        stockQuantity: number
+      }
+    ],
+    continuationToken: string
+  }
+  ```
+
+정책
+- 상품 목록은 등록 시점 역순으로 정렬되어야 한다
+- 한 페이지는 최대 10개의 상품을 포함한다
+
+테스트
+- [x] 올바르게 요청하면 200 OK 상태코드를 반환한다
+- [x] 판매자 접근 토큰을 사용하면 403 Forbidden 상태코드를 반환한다
+- [ ] 첫 번째 페이지의 상품을 반환한다
 - [ ] 상품 목록을 등록 시점 역순으로 정렬한다
+- [ ] 상품 정보를 올바르게 반환한다
+- [ ] 판매자 정보를 올바르게 반환한다
+- [ ] 두 번째 페이지를 올바르게 반환한다
+- [ ] 마지막 페이지를 올바르게 반환한다
+- [ ] continuationToken 매개변수에 빈 문자열이 지정되면 첫 번째 페이지를 반환한다

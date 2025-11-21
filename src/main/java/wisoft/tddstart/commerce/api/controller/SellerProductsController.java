@@ -2,16 +2,12 @@ package wisoft.tddstart.commerce.api.controller;
 
 import static java.time.ZoneOffset.UTC;
 
-import jakarta.servlet.http.HttpServletResponse;
 import java.net.URI;
 import java.security.Principal;
 import java.time.LocalDateTime;
-import java.time.ZoneOffset;
 import java.util.Comparator;
 import java.util.UUID;
-import org.springframework.cglib.core.Local;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -20,7 +16,7 @@ import org.springframework.web.bind.annotation.RestController;
 import wisoft.tddstart.commerce.Product;
 import wisoft.tddstart.commerce.ProductRepository;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
-import wisoft.tddstart.commerce.view.ArrayCarrier;
+import wisoft.tddstart.commerce.result.ArrayCarrier;
 import wisoft.tddstart.commerce.view.SellerProductView;
 
 @RestController

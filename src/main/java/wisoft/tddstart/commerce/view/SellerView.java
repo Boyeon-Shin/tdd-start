@@ -1,4 +1,6 @@
 package wisoft.tddstart.commerce.view;
 
-public class SellerVIew {
+import java.util.UUID;
+
+public record SellerView (UUID id, String username) {
 }
