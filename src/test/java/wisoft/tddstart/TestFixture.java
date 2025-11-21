@@ -7,28 +7,32 @@ import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterPr
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
 
 import java.net.URI;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
+import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.LocalHostUriTemplateHandler;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.env.Environment;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
+import wisoft.tddstart.commerce.ProductRepository;
 import wisoft.tddstart.commerce.command.CreateSellerCommand;
 import wisoft.tddstart.commerce.command.CreateShopperCommand;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
 import wisoft.tddstart.commerce.query.IssueShopperToken;
 import wisoft.tddstart.commerce.result.AccessTokenCarrier;
+import wisoft.tddstart.commerce.view.ProductView;
 
-public record TestFixture(TestRestTemplate client) {
+public record TestFixture(TestRestTemplate client, ProductRepository productRepository) {
 
-    public static TestFixture create(Environment environment) {
+    public static TestFixture create(Environment environment, ProductRepository productRepository) {
         var client = new TestRestTemplate();
         var uriTemplateHandler = new LocalHostUriTemplateHandler(environment);
         client.setUriTemplateHandler(uriTemplateHandler);
-        return new TestFixture(client);
+        return new TestFixture(client, productRepository);
     }
 
     public void createShopper(final String email, final String username, final String password) {
@@ -123,4 +127,18 @@ public record TestFixture(TestRestTemplate client) {
     public List<UUID> registerProducts() {
         return List.of(registerProduct(), registerProduct(), registerProduct());
     }
+
+    public void deleteAllProducts() {
+        productRepository.deleteAll();
+    }
+
+
+    public List<UUID> registerProducts(int count) {
+        List<UUID> ids = new ArrayList<>();
+        for (int i = 0; i < count; i++) {
+            ids.add(registerProduct());
+        }
+        return ids;
+    }
+
 }
