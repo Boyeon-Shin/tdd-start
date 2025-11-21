@@ -25,6 +25,8 @@ import wisoft.tddstart.commerce.query.IssueSellerToken;
 import wisoft.tddstart.commerce.query.IssueShopperToken;
 import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 import wisoft.tddstart.commerce.view.ProductView;
+import wisoft.tddstart.commerce.view.SellerMeView;
+import wisoft.tddstart.commerce.view.SellerView;
 
 public record TestFixture(TestRestTemplate client, ProductRepository productRepository) {
 
@@ -141,4 +143,7 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
         return ids;
     }
 
+    public SellerMeView getSeller() {
+        return client.getForObject("/seller/me", SellerMeView.class);
+    }
 }

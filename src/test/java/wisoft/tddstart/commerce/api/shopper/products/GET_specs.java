@@ -14,6 +14,8 @@ import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.result.PageCarrier;
 import wisoft.tddstart.commerce.view.ProductView;
+import wisoft.tddstart.commerce.view.SellerMeView;
+import wisoft.tddstart.commerce.view.SellerView;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
@@ -122,8 +124,28 @@ public class GET_specs {
     }
 
 
+    //상품 등록의 명령이 테스트에 노출될 필요 없음, 판매자 정보를 가져오는 것이 필요함
     @Test
-    void 판매자_정보를_올바르게_반환한다(@Autowired TestFixture fixture) { {
-    }
+    void 판매자_정보를_올바르게_반환한다(@Autowired TestFixture fixture) {
+        fixture.deleteAllProducts();
+
+        fixture.createSellerThenSetAsDefaultUser();
+        SellerMeView seller = fixture.getSeller();
+        fixture.registerProduct();
+
+        fixture.createShopperThenSetAsDefaultUser();
+
+        // Act
+        ResponseEntity<PageCarrier<ProductView>> response =
+                fixture.client().exchange(
+                        get("/shopper/products").build(),
+                        new ParameterizedTypeReference<>() { }
+                );
+
+        PageCarrier<ProductView> body = response.getBody();
+        SellerView actual =requireNonNull(body).items()[0].seller();
+        assertThat(actual).isNotNull();
+        assertThat(actual.id()).isEqualTo(seller.id());
+        assertThat(actual.username()).isEqualTo(seller.username());
     }
 }
