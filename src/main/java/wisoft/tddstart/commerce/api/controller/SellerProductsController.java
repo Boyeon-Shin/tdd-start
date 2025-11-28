@@ -16,11 +16,13 @@ import org.springframework.web.bind.annotation.RestController;
 import wisoft.tddstart.commerce.Product;
 import wisoft.tddstart.commerce.ProductRepository;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
+import wisoft.tddstart.commerce.commandModel.InvalidCommandException;
 import wisoft.tddstart.commerce.result.ArrayCarrier;
 import wisoft.tddstart.commerce.view.SellerProductView;
 
 @RestController
 public record SellerProductsController(ProductRepository repository) {
+
     @PostMapping("/seller/products")
     ResponseEntity<?> registerProduct(
             @RequestBody RegisterProductCommand command,
@@ -28,7 +30,7 @@ public record SellerProductsController(ProductRepository repository) {
 
     ) {
         if (isValidUri(command.imageUri()) == false) {
-            return ResponseEntity.badRequest().build();
+            throw new InvalidCommandException();
         }
 
         UUID id = UUID.randomUUID();

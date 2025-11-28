@@ -158,4 +158,13 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
         );
         return requireNonNull(response.getBody()).continuationToken();
     }
+
+    public String consumeTwoProductPages() {
+        String token = consumeProductPage();
+        ResponseEntity<PageCarrier<ProductView>> response = client.exchange(
+                get("/shopper/products?continuationToken=" + token).build(),
+                new ParameterizedTypeReference<>() { }
+        );
+        return requireNonNull(response.getBody()).continuationToken();
+    }
 }
