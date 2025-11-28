@@ -1,9 +1,13 @@
 package wisoft.tddstart.commerce.api.shopper.products;
 
+import static java.util.Objects.requireNonNull;
+import static org.assertj.core.api.Assertions.assertThat;
+import static org.springframework.http.RequestEntity.get;
+import static wisoft.tddstart.ProductAssertions.isViewDerivedFrom;
+import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
+
 import java.util.List;
 import java.util.UUID;
-import org.assertj.core.api.Condition;
-import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,12 +20,6 @@ import wisoft.tddstart.commerce.result.PageCarrier;
 import wisoft.tddstart.commerce.view.ProductView;
 import wisoft.tddstart.commerce.view.SellerMeView;
 import wisoft.tddstart.commerce.view.SellerView;
-
-import static java.util.Objects.requireNonNull;
-import static org.assertj.core.api.Assertions.assertThat;
-import static org.springframework.http.RequestEntity.get;
-import static wisoft.tddstart.ProductAssertions.isViewDerivedFrom;
-import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
 
 @CommerceApiTest
 @DisplayName("GET /shopper/products")
@@ -139,13 +137,40 @@ public class GET_specs {
         ResponseEntity<PageCarrier<ProductView>> response =
                 fixture.client().exchange(
                         get("/shopper/products").build(),
-                        new ParameterizedTypeReference<>() { }
+                        new ParameterizedTypeReference<>() {
+                        }
                 );
 
         PageCarrier<ProductView> body = response.getBody();
-        SellerView actual =requireNonNull(body).items()[0].seller();
+        SellerView actual = requireNonNull(body).items()[0].seller();
         assertThat(actual).isNotNull();
         assertThat(actual.id()).isEqualTo(seller.id());
         assertThat(actual.username()).isEqualTo(seller.username());
+    }
+
+
+    @Test
+    void _두_번째_페이지를_올바르게_반환한다(@Autowired TestFixture fixture) {
+        fixture.deleteAllProducts();
+
+        fixture.createSellerThenSetAsDefaultUser();
+        fixture.registerProducts(PAGE_SIZE / 2);
+        List<UUID> ids = fixture.registerProducts(PAGE_SIZE);
+        fixture.registerProducts(PAGE_SIZE);
+
+        fixture.createShopperThenSetAsDefaultUser();
+        String token = fixture.consumeProductPage();
+
+        // Act
+        ResponseEntity<PageCarrier<ProductView>> response =
+                fixture.client().exchange(
+                        get("/shopper/products?continuationToken=" + token).build(),
+                        new ParameterizedTypeReference<>() { }
+                );
+
+        // Assert
+        assertThat(requireNonNull(response.getBody()).items())
+                .extracting(ProductView::id)
+                .containsExactlyElementsOf(ids.reversed());
     }
 }

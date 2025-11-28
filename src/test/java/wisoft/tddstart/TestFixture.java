@@ -1,6 +1,7 @@
 package wisoft.tddstart;
 
 import static java.util.Objects.requireNonNull;
+import static org.springframework.http.RequestEntity.get;
 import static wisoft.tddstart.EmailGenerator.generateEmail;
 import static wisoft.tddstart.PasswordGenerator.generatePassword;
 import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
@@ -14,7 +15,9 @@ import org.assertj.core.api.ThrowingConsumer;
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.LocalHostUriTemplateHandler;
 import org.springframework.boot.test.web.client.TestRestTemplate;
+import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
+import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import wisoft.tddstart.commerce.ProductRepository;
@@ -24,6 +27,7 @@ import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.query.IssueSellerToken;
 import wisoft.tddstart.commerce.query.IssueShopperToken;
 import wisoft.tddstart.commerce.result.AccessTokenCarrier;
+import wisoft.tddstart.commerce.result.PageCarrier;
 import wisoft.tddstart.commerce.view.ProductView;
 import wisoft.tddstart.commerce.view.SellerMeView;
 import wisoft.tddstart.commerce.view.SellerView;
@@ -145,5 +149,13 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
 
     public SellerMeView getSeller() {
         return client.getForObject("/seller/me", SellerMeView.class);
+    }
+
+    public String consumeProductPage() {
+        ResponseEntity<PageCarrier<ProductView>> response = client.exchange(
+                get("/shopper/products").build(),
+                new ParameterizedTypeReference<>() { }
+        );
+        return requireNonNull(response.getBody()).continuationToken();
     }
 }
