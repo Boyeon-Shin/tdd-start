@@ -1,13 +1,13 @@
-package wisoft.tddstart.commerce.api.controller;
+package wisoft.tddstart.commerce.querymodel;
 
 import wisoft.tddstart.commerce.Product;
 import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.view.ProductView;
 import wisoft.tddstart.commerce.view.SellerView;
 
-record ProductSellerTuple(Product product, Seller seller) {
+ record ProductSellerTuple(Product product, Seller seller) {
 
-    ProductView toView() {
+     ProductView toView() {
         return new ProductView(
                 product.getId(),
                 new SellerView(seller().getId(), seller().getUsername()),

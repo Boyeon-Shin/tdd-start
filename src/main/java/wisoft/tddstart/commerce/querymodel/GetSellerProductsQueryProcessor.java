@@ -22,6 +22,7 @@ public class GetSellerProductsQueryProcessor {
                 .stream()
                 .sorted(Comparator.comparing(Product::getRegisteredTimeUtc, Comparator.reverseOrder()))
                 .map(ProductMapper::convertToView)
+
                 .toArray(SellerProductView[]::new);
 
         return new ArrayCarrier<>(items);
