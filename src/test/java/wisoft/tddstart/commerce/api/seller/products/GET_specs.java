@@ -127,7 +127,7 @@ public class GET_specs {
     void 상품_목록을_등록_시점_역순으로_정렬한다(@Autowired TestFixture fixture) {
         //Arrange
         fixture.createSellerThenSetAsDefaultUser();
-        fixture.registerProduct();
+        fixture.registerProducts();
 
         //Act
         ResponseEntity<ArrayCarrier<SellerProductView>> response =
@@ -137,6 +137,7 @@ public class GET_specs {
                 );
 
         System.out.println("here" + response.getBody());
+
         //Assert
         assertThat(requireNonNull(response.getBody()).items())
                 .extracting(SellerProductView::registeredTimeUtc)
