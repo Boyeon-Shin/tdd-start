@@ -130,7 +130,7 @@ public class POST_specs {
 
 
     @ParameterizedTest
-    @MethodSource("wisoft.tddstart.commerce.TestDataSource#invalidPasswords")
+    @MethodSource("wisoft.tddstart.TestDataSource#invalidPasswords")
     void password_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String password, @Autowired TestRestTemplate client) {
         var command = new CreateSellerCommand(generateEmail(), generateUsername(), password);
 

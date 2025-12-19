@@ -1,4 +1,4 @@
-package wisoft.tddstart.commerce;
+package wisoft.tddstart;
 
 public class TestDataSource {
 
@@ -6,7 +6,10 @@ public class TestDataSource {
         return new String[]{
                 "",
                 "pass",
-                "pass123"
+                "pass123",
+                "1234password",
+                "password1234",
+                "pass5678word"
         };
     }
 }

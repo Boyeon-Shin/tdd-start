@@ -43,7 +43,18 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
 
     public void createShopper(final String email, final String username, final String password) {
         var command = new CreateShopperCommand(email, username, password);
-        client.postForEntity("/shopper/signUp", command, Void.class);
+        ensureSuccessful(
+                client.postForEntity("/shopper/signUp", command, Void.class),
+                command
+        );
+    }
+
+    private void ensureSuccessful(ResponseEntity<Void> response, Object request) {
+        if (response.getStatusCode().is2xxSuccessful() == false) {
+            String message = "Request with" + request
+                    + "failed with status code" + response.getStatusCode();
+            throw new RuntimeException(message);
+        }
     }
 
     public String issueShopperToken(final String email, final String password) {
@@ -89,7 +100,10 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
 
     private void createSeller(final String email, final String username, final String password) {
         var command = new CreateSellerCommand(email, username, password);
-        client.postForEntity("/seller/signUp", command, Void.class);
+        ensureSuccessful(
+                client.postForEntity("/seller/signUp", command, Void.class),
+                command
+        );
     }
 
     private void setSellerAsDefaultUser(final String email, final String password) {
@@ -154,7 +168,8 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
     public String consumeProductPage() {
         ResponseEntity<PageCarrier<ProductView>> response = client.exchange(
                 get("/shopper/products").build(),
-                new ParameterizedTypeReference<>() { }
+                new ParameterizedTypeReference<>() {
+                }
         );
         return requireNonNull(response.getBody()).continuationToken();
     }
@@ -163,7 +178,8 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
         String token = consumeProductPage();
         ResponseEntity<PageCarrier<ProductView>> response = client.exchange(
                 get("/shopper/products?continuationToken=" + token).build(),
-                new ParameterizedTypeReference<>() { }
+                new ParameterizedTypeReference<>() {
+                }
         );
         return requireNonNull(response.getBody()).continuationToken();
     }
