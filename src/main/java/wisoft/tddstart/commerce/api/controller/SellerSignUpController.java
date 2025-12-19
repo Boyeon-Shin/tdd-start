@@ -32,6 +32,7 @@ public record SellerSignUpController(PasswordEncoder passwordEncoder, SellerRepo
         seller.setEmail(command.email());
         seller.setUsername(command.username());
         seller.setHashedPassword(hashedPassword);
+        seller.setContactEmail(command.contactEmail());
         sellerRepository.save(seller);
 
         return ResponseEntity.noContent().build();
@@ -40,6 +41,7 @@ public record SellerSignUpController(PasswordEncoder passwordEncoder, SellerRepo
     private static boolean isCommandValid(final CreateSellerCommand command) {
         return isEmailValid(command.email())
                 && isUserNameValid(command.username())
-                && isPasswordValid(command.password());
+                && isPasswordValid(command.password())
+                && isEmailValid(command.contactEmail());
     }
 }

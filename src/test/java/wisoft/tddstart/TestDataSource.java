@@ -12,4 +12,15 @@ public class TestDataSource {
                 "pass5678word"
         };
     }
+
+    public static String[] invalidEmails() {
+        return new String[]{
+                null,
+                "invalid-email",
+                "invalid-email@",
+                "invalid-email@test",
+                "invalid-email@test.",
+                "invalid-email@.com"
+        };
+    }
 }

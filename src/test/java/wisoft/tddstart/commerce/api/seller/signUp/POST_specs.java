@@ -1,5 +1,6 @@
 package wisoft.tddstart.commerce.api.seller.signUp;
 
+import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 import static wisoft.tddstart.EmailGenerator.generateEmail;
 import static wisoft.tddstart.PasswordGenerator.generatePassword;
 import static wisoft.tddstart.UsernameGenerator.generateUsername;
@@ -14,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import wisoft.tddstart.TestFixture;
 import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.SellerRepository;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
@@ -191,6 +193,28 @@ public class POST_specs {
 
         Assertions.assertThat(actual).isNotNull();
         Assertions.assertThat(encoder.matches(command.password(), actual)).isTrue();
+    }
+
+    @ParameterizedTest
+    @MethodSource("wisoft.tddstart.TestDataSource#invalidEmails")
+    void contactEmail_속성이_올바르게_지정되지_않으면_400_Bad_Request_상태코드를_반환한다 (
+            String contactEmail,
+            @Autowired TestFixture fixture
+            ) {
+        var command = new CreateSellerCommand(
+                generateEmail(),
+                generateUsername(),
+                generateUsername(),
+                contactEmail
+        );
+
+        ResponseEntity<Void> response = fixture.client().postForEntity(
+                "/seller/signUp",
+                command,
+                Void.class
+        );
+
+        assertThat(response.getStatusCode().value()).isEqualTo(400);
     }
 }
 

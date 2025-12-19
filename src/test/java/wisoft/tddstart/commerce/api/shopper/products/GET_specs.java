@@ -2,6 +2,7 @@ package wisoft.tddstart.commerce.api.shopper.products;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.Assertions.assertThatPredicate;
 import static org.springframework.http.RequestEntity.get;
 import static wisoft.tddstart.ProductAssertions.isViewDerivedFrom;
 import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
@@ -17,6 +18,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
 import wisoft.tddstart.TestFixture;
+import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.result.PageCarrier;
@@ -228,5 +230,26 @@ public class GET_specs {
         assertThat(requireNonNull(requireNonNull(response.getBody())).items())
                 .extracting(ProductView::id)
                 .containsAll(ids);
+    }
+
+
+    @Test
+    void  문의_이메일_주소를_올바르게_설정한다(@Autowired TestFixture fixture) {
+        fixture.deleteAllProducts();
+
+        fixture.createSellerThenSetAsDefaultUser();
+        SellerMeView seller = fixture.getSeller();
+        fixture.registerProduct();
+
+        fixture.createShopperThenSetAsDefaultUser();
+
+        ResponseEntity<PageCarrier<ProductView>> response =
+                fixture.client().exchange(
+                        get("/shopper/products").build(),
+                        new ParameterizedTypeReference<>() {}
+                );
+
+        ProductView actual = requireNonNull(response.getBody()).items()[0];
+        assertThat(actual.seller().contactEmail()).isEqualTo(seller.contactEmail());
     }
 }

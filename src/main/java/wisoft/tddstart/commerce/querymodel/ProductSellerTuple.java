@@ -10,7 +10,10 @@ import wisoft.tddstart.commerce.view.SellerView;
      ProductView toView() {
         return new ProductView(
                 product.getId(),
-                new SellerView(seller().getId(), seller().getUsername(), null),
+                new SellerView(
+                        seller().getId(),
+                        seller().getUsername(),
+                        seller().getContactEmail()),
                 product.getName(),
                 product.getImageUri(),
                 product.getDescription(),

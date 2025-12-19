@@ -30,7 +30,8 @@
   CreateSellerCommand {
     email: string,
     username: string,
-    password: string
+    password: string,
+    contactEmail: string
   }
   ```
 - curl 명령 예시
@@ -40,7 +41,8 @@
   -d '{
     "email": "seller1@example.com",
     "username": "seller1",
-    "password": "seller1-password"
+    "password": "seller1-password",
+    "contactEmail": "contact1@example.com"
   }'
   ```
 
@@ -52,6 +54,7 @@
 - 사용자이름은 유일해야 한다
 - 사용자이름은 3자 이상의 영문자, 숫자, 하이픈, 밑줄 문자로 구성되어야 한다
 - 비밀번호는 8자 이상의 문자로 구성되어야 한다
+- 비밀번호는 연속된 4개 이상의 문자를 포함해서는 안 된다
 
 테스트
 - [x] 올바르게 요청하면 204 No Content 상태코드를 반환한다
@@ -65,6 +68,7 @@
 - [x] email 속성에 이미 존재하는 이메일 주소가 지정되면 400 Bad Request 상태코드를 반환한다
 - [x] username 속성에 이미 존재하는 사용자이름이 지정되면 400 Bad Request 상태코드를 반환한다
 - [x] 비밀번호를 올바르게 암호화한다
+- [x] contactEmail 속성이 올바르게 지정되지 않으면 400 Bad Request 상태코드를 반환한다
 
 ### 판매자 접근 토큰 발행
 
@@ -137,6 +141,7 @@
 - 사용자이름은 유일해야 한다
 - 사용자이름은 3자 이상의 영문자, 숫자, 하이픈, 밑줄 문자로 구성되어야 한다
 - 비밀번호는 8자 이상의 문자로 구성되어야 한다
+- 비밀번호는 연속된 4개 이상의 문자를 포함해서는 안 된다
 
 테스트
 - [x] 올바르게 요청하면 204 No Content 상태코드를 반환한다
@@ -210,7 +215,8 @@
   SellerMeView {
     id: string(UUID),
     email: string,
-    username: string
+    username: string,
+    contactEmail: string
   }
   ```
 
@@ -220,6 +226,7 @@
 - [x] 서로 다른 판매자의 식별자는 서로 다르다
 - [x] 같은 판매자의 식별자는 항상 같다
 - [x] 판매자의 기본 정보가 올바르게 설정된다
+- [x] 문의 이메일 주소를 올바르게 설정한다
 
 ### 구매자 정보 조회
 
@@ -413,7 +420,8 @@
         id: string(UUID),
         seller: SellerView {
           id: string(UUID),
-          username: string
+          username: string,
+          contactEmail: string
         },
         name: string,
         imageUri: string,
@@ -438,5 +446,6 @@
 - [x] 상품 정보를 올바르게 반환한다
 - [x] 판매자 정보를 올바르게 반환한다
 - [x] 두 번째 페이지를 올바르게 반환한다
-- [ ] 마지막 페이지를 올바르게 반환한다
-- [ ] continuationToken 매개변수에 빈 문자열이 지정되면 첫 번째 페이지를 반환한다
+- [x] 마지막 페이지를 올바르게 반환한다
+- [x] continuationToken 매개변수에 빈 문자열이 지정되면 첫 번째 페이지를 반환한다
+- [x] 문의 이메일 주소를 올바르게 설정한다

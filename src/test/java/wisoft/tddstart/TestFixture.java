@@ -93,13 +93,14 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
     public void createSellerThenSetAsDefaultUser() {
         String email = generateEmail();
         String password = generatePassword();
-        createSeller(email, generateUsername(), password);
+        String contactEmail = generateEmail();
+        createSeller(email, generateUsername(), password, contactEmail);
         setSellerAsDefaultUser(email, password);
     }
 
 
-    private void createSeller(final String email, final String username, final String password) {
-        var command = new CreateSellerCommand(email, username, password,  generateEmail());
+    public void createSeller(final String email, final String username, final String password, String contactEmail) {
+        var command = new CreateSellerCommand(email, username, password, contactEmail);
         ensureSuccessful(
                 client.postForEntity("/seller/signUp", command, Void.class),
                 command

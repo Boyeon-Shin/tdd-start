@@ -15,6 +15,6 @@ public record SellerMeController(SellerRepository sellerRepository) {
     SellerMeView me(Principal user) {
         UUID id = UUID.fromString(user.getName());
         Seller seller = sellerRepository.findById(id).orElseThrow();
-        return new SellerMeView(id, seller.getEmail(), seller.getUsername(), null);
+        return new SellerMeView(id, seller.getEmail(), seller.getUsername(), seller.getContactEmail());
     }
 }
