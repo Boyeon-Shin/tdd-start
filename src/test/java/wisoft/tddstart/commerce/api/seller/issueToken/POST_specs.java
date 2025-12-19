@@ -29,7 +29,7 @@ public class POST_specs {
 
         //Arrange
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), password),
+                new CreateSellerCommand(email, generateUsername(), password, generateEmail()),
                 Void.class);
 
         //Act
@@ -50,7 +50,7 @@ public class POST_specs {
 
         //Arrange
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), password),
+                new CreateSellerCommand(email, generateUsername(), password, generateEmail()),
                 Void.class);
 
         //Act
@@ -72,7 +72,7 @@ public class POST_specs {
 
         //Arrange
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), password),
+                new CreateSellerCommand(email, generateUsername(), password, generateEmail()),
                 Void.class);
 
         //Act
@@ -112,7 +112,7 @@ public class POST_specs {
 
         //Arrange
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), password),
+                new CreateSellerCommand(email, generateUsername(), password, generateEmail()),
                 Void.class);
 
         //Act

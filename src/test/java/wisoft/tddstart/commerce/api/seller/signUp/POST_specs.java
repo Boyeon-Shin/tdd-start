@@ -26,7 +26,7 @@ public class POST_specs {
     @Test
     void 올바르게_요청하면_204_No_Content_상태코드를_반환한다(@Autowired TestRestTemplate client) {
         //arrange
-        var command = new CreateSellerCommand(generateEmail(), generateUsername(), "password");
+        var command = new CreateSellerCommand(generateEmail(), generateUsername(), "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -38,7 +38,7 @@ public class POST_specs {
     @Test
     void email_속성이_지정되지_않으면_400_Bad_Request_상태코드를_반환한다(@Autowired TestRestTemplate client) {
         //arrange
-        var command = new CreateSellerCommand(null, generateUsername(), "password");
+        var command = new CreateSellerCommand(null, generateUsername(), "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -58,7 +58,7 @@ public class POST_specs {
     })
     void email_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String email, @Autowired TestRestTemplate client) {
 
-        var command = new CreateSellerCommand(email, generateUsername(), "password");
+        var command = new CreateSellerCommand(email, generateUsername(), "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -71,7 +71,7 @@ public class POST_specs {
     @Test
     void username_속성이_지정되지_않으면_400_Bad_Request_상태코드를_반환한다(@Autowired TestRestTemplate client) {
         //arrange
-        var command = new CreateSellerCommand(generateEmail(), null, "password");
+        var command = new CreateSellerCommand(generateEmail(), null, "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -91,7 +91,7 @@ public class POST_specs {
     })
     void username_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String username, @Autowired TestRestTemplate client) {
         //arrange
-        var command = new CreateSellerCommand(generateEmail(), username, "password");
+        var command = new CreateSellerCommand(generateEmail(), username, "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -109,7 +109,7 @@ public class POST_specs {
             "seller-"
     })
     void username_속성이_올바른_형식에_따르면_204_No_Content_상태코드를_반환한다(String username, @Autowired TestRestTemplate client) {
-        var command = new CreateSellerCommand(generateEmail(), username, "password");
+        var command = new CreateSellerCommand(generateEmail(), username, "password", generateEmail());
 
         //act
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
@@ -121,7 +121,7 @@ public class POST_specs {
 
     @Test
     void password_속성이_지정되지_않으면_400_Bad_Request_상태코드를_반환한다(@Autowired TestRestTemplate client) {
-        var command = new CreateSellerCommand(generateEmail(), generateUsername(), null);
+        var command = new CreateSellerCommand(generateEmail(), generateUsername(), null, generateEmail());
 
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
 
@@ -132,7 +132,7 @@ public class POST_specs {
     @ParameterizedTest
     @MethodSource("wisoft.tddstart.TestDataSource#invalidPasswords")
     void password_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String password, @Autowired TestRestTemplate client) {
-        var command = new CreateSellerCommand(generateEmail(), generateUsername(), password);
+        var command = new CreateSellerCommand(generateEmail(), generateUsername(), password, generateEmail());
 
         ResponseEntity<Void> response = client.postForEntity("/seller/signUp", command, Void.class);
 
@@ -144,11 +144,11 @@ public class POST_specs {
         String email = generateEmail();
 
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), "password"), Void.class);
+                new CreateSellerCommand(email, generateUsername(), "password", generateEmail()), Void.class);
 
         ResponseEntity<Void> response = client.postForEntity(
                 "/seller/signUp",
-                new CreateSellerCommand(email, generateUsername(), "password"), Void.class);
+                new CreateSellerCommand(email, generateUsername(), "password", generateEmail()), Void.class);
 
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(400);
     }
@@ -159,11 +159,11 @@ public class POST_specs {
         String username = generateUsername();
 
         client.postForEntity("/seller/signUp",
-                new CreateSellerCommand(generateEmail(), username, "password"), Void.class);
+                new CreateSellerCommand(generateEmail(), username, "password", generateEmail()), Void.class);
 
         ResponseEntity<Void> response = client.postForEntity(
                 "/seller/signUp",
-                new CreateSellerCommand(generateEmail(), username, "password"), Void.class);
+                new CreateSellerCommand(generateEmail(), username, "password", generateEmail()), Void.class);
 
         Assertions.assertThat(response.getStatusCode().value()).isEqualTo(400);
     }
@@ -174,18 +174,18 @@ public class POST_specs {
                           @Autowired SellerRepository sellerRepository,
                           @Autowired PasswordEncoder encoder) {
 
-        var command = new CreateSellerCommand(generateEmail(), generateUsername(), generatePassword());
+        var command = new CreateSellerCommand(generateEmail(), generateUsername(), generatePassword(), generateEmail());
 
         //act
         client.postForEntity("/seller/signUp", command, Void.class);
 
         //assert
         Seller seller = sellerRepository
-                        .findAll()
-                        .stream()
-                        .filter(x -> x.getEmail().equals(command.email()))
-                        .findFirst()
-                        .orElseThrow();
+                .findAll()
+                .stream()
+                .filter(x -> x.getEmail().equals(command.email()))
+                .findFirst()
+                .orElseThrow();
 
         String actual = seller.getHashedPassword();
 

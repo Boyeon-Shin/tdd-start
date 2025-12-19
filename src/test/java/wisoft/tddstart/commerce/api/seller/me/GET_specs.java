@@ -31,7 +31,7 @@ public class GET_specs {
         String password = generatePassword();
 
 
-        var command = new CreateSellerCommand(email, username, password);
+        var command = new CreateSellerCommand(email, username, password, generateEmail());
         client.postForEntity("/seller/signUp", command, Void.class);
 
         AccessTokenCarrier carries = client.postForObject(
@@ -73,7 +73,7 @@ public class GET_specs {
         String username1 = generateUsername();
         String password1 = generatePassword();
 
-        var command1 = new CreateSellerCommand(email1, username1, password1);
+        var command1 = new CreateSellerCommand(email1, username1, password1, generateEmail());
         client.postForEntity("/seller/signUp", command1, Void.class);
 
         AccessTokenCarrier carries1 = client.postForObject(
@@ -89,7 +89,7 @@ public class GET_specs {
         String username2 = generateUsername();
         String password2 = generatePassword();
 
-        var command2 = new CreateSellerCommand(email2, username2, password2);
+        var command2 = new CreateSellerCommand(email2, username2, password2, generateEmail());
         client.postForEntity("/seller/signUp", command2, Void.class);
 
         AccessTokenCarrier carries2 = client.postForObject("/seller/issueToken",
@@ -128,7 +128,7 @@ public class GET_specs {
         String username = generateUsername();
         String password = generatePassword();
 
-        var command = new CreateSellerCommand(email, username, password);
+        var command = new CreateSellerCommand(email, username, password, generateEmail());
         client.postForEntity("/seller/signUp", command, Void.class);
 
         AccessTokenCarrier carrier1 = client.postForObject(
@@ -171,7 +171,7 @@ public class GET_specs {
         String username = generateUsername();
         String password = generatePassword();
 
-        var command = new CreateSellerCommand(email, username, password);
+        var command = new CreateSellerCommand(email, username, password, generateEmail());
         client.postForEntity("/seller/signUp", command, Void.class);
 
         AccessTokenCarrier carrier = client.postForObject(

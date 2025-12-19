@@ -99,7 +99,7 @@ public record TestFixture(TestRestTemplate client, ProductRepository productRepo
 
 
     private void createSeller(final String email, final String username, final String password) {
-        var command = new CreateSellerCommand(email, username, password);
+        var command = new CreateSellerCommand(email, username, password,  generateEmail());
         ensureSuccessful(
                 client.postForEntity("/seller/signUp", command, Void.class),
                 command
