@@ -1,9 +1,9 @@
 package wisoft.tddstart.commerce.api.seller.signUp;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
-import static wisoft.tddstart.PasswordGenerator.generatePassword;
-import static wisoft.tddstart.UsernameGenerator.generateUsername;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.commerce.UsernameGenerator.generateUsername;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -15,7 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.crypto.password.PasswordEncoder;
-import wisoft.tddstart.TestFixture;
+import wisoft.tddstart.commerce.api.TestFixture;
 import wisoft.tddstart.commerce.Seller;
 import wisoft.tddstart.commerce.SellerRepository;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
@@ -132,7 +132,7 @@ public class POST_specs {
 
 
     @ParameterizedTest
-    @MethodSource("wisoft.tddstart.TestDataSource#invalidPasswords")
+    @MethodSource("wisoft.tddstart.commerce.TestDataSource#invalidPasswords")
     void password_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String password, @Autowired TestRestTemplate client) {
         var command = new CreateSellerCommand(generateEmail(), generateUsername(), password, generateEmail());
 
@@ -196,7 +196,7 @@ public class POST_specs {
     }
 
     @ParameterizedTest
-    @MethodSource("wisoft.tddstart.TestDataSource#invalidEmails")
+    @MethodSource("wisoft.tddstart.commerce.TestDataSource#invalidEmails")
     void contactEmail_속성이_올바르게_지정되지_않으면_400_Bad_Request_상태코드를_반환한다 (
             String contactEmail,
             @Autowired TestFixture fixture

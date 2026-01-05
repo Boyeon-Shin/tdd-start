@@ -1,8 +1,8 @@
 package wisoft.tddstart.commerce.api.seller.products;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
-import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommandWithImageUri;
+import static wisoft.tddstart.commerce.RegisterProductCommandGenerator.generateRegisterProductCommand;
+import static wisoft.tddstart.commerce.RegisterProductCommandGenerator.generateRegisterProductCommandWithImageUri;
 
 import java.net.URI;
 import java.util.UUID;
@@ -13,7 +13,7 @@ import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import wisoft.tddstart.TestFixture;
+import wisoft.tddstart.commerce.api.TestFixture;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 
 @CommerceApiTest

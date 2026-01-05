@@ -2,10 +2,10 @@ package wisoft.tddstart.commerce.api.seller.issueToken;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
-import static wisoft.tddstart.JwtAssertion.conformsToJwtFormat;
-import static wisoft.tddstart.PasswordGenerator.generatePassword;
-import static wisoft.tddstart.UsernameGenerator.generateUsername;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.JwtAssertion.conformsToJwtFormat;
+import static wisoft.tddstart.commerce.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.commerce.UsernameGenerator.generateUsername;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;

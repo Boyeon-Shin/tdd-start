@@ -1,4 +1,4 @@
-package wisoft.tddstart;
+package wisoft.tddstart.commerce;
 
 import java.math.BigDecimal;
 import java.util.UUID;

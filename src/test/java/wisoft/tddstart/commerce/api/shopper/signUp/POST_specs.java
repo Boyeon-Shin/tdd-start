@@ -1,9 +1,9 @@
 package wisoft.tddstart.commerce.api.shopper.signUp;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
-import static wisoft.tddstart.PasswordGenerator.generatePassword;
-import static wisoft.tddstart.UsernameGenerator.generateUsername;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.commerce.UsernameGenerator.generateUsername;
 
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.DisplayName;
@@ -125,7 +125,7 @@ public class POST_specs {
     }
 
     @ParameterizedTest
-    @MethodSource("wisoft.tddstart.TestDataSource#invalidPasswords")
+    @MethodSource("wisoft.tddstart.commerce.TestDataSource#invalidPasswords")
     void password_속성이_올바른_형식을_따르지_않으면_400_Bad_Request_상태코드를_반환한다(String password, @Autowired TestRestTemplate client) {
         var command = new CreateShopperCommand(generateEmail(), generateUsername(), password);
 

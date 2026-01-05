@@ -1,16 +1,15 @@
 package wisoft.tddstart.commerce.api.seller.changecontactemail;
 
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatPredicate;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import wisoft.tddstart.TestFixture;
-import wisoft.tddstart.InvalidEmailSource;
+import wisoft.tddstart.commerce.api.TestFixture;
+import wisoft.tddstart.commerce.InvalidEmailSource;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.ChangeContactEmailCommand;
 import wisoft.tddstart.commerce.view.SellerMeView;

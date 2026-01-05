@@ -1,4 +1,4 @@
-package wisoft.tddstart;
+package wisoft.tddstart.commerce;
 
 public class TestDataSource {
 

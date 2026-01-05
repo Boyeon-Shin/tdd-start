@@ -1,6 +1,5 @@
-package wisoft.tddstart;
+package wisoft.tddstart.commerce.api;
 
-import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Scope;
 import org.springframework.core.env.Environment;

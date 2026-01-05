@@ -3,15 +3,15 @@ package wisoft.tddstart.commerce.api.shopper.me;
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.springframework.http.RequestEntity.get;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
-import static wisoft.tddstart.PasswordGenerator.generatePassword;
-import static wisoft.tddstart.UsernameGenerator.generateUsername;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.commerce.UsernameGenerator.generateUsername;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import wisoft.tddstart.TestFixture;
+import wisoft.tddstart.commerce.api.TestFixture;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.view.ShopperMeView;
 

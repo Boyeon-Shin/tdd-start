@@ -2,10 +2,9 @@ package wisoft.tddstart.commerce.api.shopper.products;
 
 import static java.util.Objects.requireNonNull;
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.assertj.core.api.Assertions.assertThatPredicate;
 import static org.springframework.http.RequestEntity.get;
-import static wisoft.tddstart.ProductAssertions.isViewDerivedFrom;
-import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
+import static wisoft.tddstart.commerce.ProductAssertions.isViewDerivedFrom;
+import static wisoft.tddstart.commerce.RegisterProductCommandGenerator.generateRegisterProductCommand;
 
 import java.util.List;
 import java.util.UUID;
@@ -14,11 +13,9 @@ import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.ValueSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.http.ResponseEntity;
-import wisoft.tddstart.TestFixture;
-import wisoft.tddstart.commerce.Seller;
+import wisoft.tddstart.commerce.api.TestFixture;
 import wisoft.tddstart.commerce.api.CommerceApiTest;
 import wisoft.tddstart.commerce.command.RegisterProductCommand;
 import wisoft.tddstart.commerce.result.PageCarrier;

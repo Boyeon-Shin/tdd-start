@@ -1,23 +1,20 @@
-package wisoft.tddstart;
+package wisoft.tddstart.commerce.api;
 
 import static java.util.Objects.requireNonNull;
 import static org.springframework.http.RequestEntity.get;
-import static wisoft.tddstart.EmailGenerator.generateEmail;
-import static wisoft.tddstart.PasswordGenerator.generatePassword;
-import static wisoft.tddstart.RegisterProductCommandGenerator.generateRegisterProductCommand;
-import static wisoft.tddstart.UsernameGenerator.generateUsername;
+import static wisoft.tddstart.commerce.EmailGenerator.generateEmail;
+import static wisoft.tddstart.commerce.PasswordGenerator.generatePassword;
+import static wisoft.tddstart.commerce.RegisterProductCommandGenerator.generateRegisterProductCommand;
+import static wisoft.tddstart.commerce.UsernameGenerator.generateUsername;
 
 import java.net.URI;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.UUID;
-import org.assertj.core.api.ThrowingConsumer;
-import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.web.client.LocalHostUriTemplateHandler;
 import org.springframework.boot.test.web.client.TestRestTemplate;
 import org.springframework.core.ParameterizedTypeReference;
 import org.springframework.core.env.Environment;
-import org.springframework.http.RequestEntity;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.client.RestTemplate;
 import wisoft.tddstart.commerce.ProductRepository;
@@ -30,7 +27,6 @@ import wisoft.tddstart.commerce.result.AccessTokenCarrier;
 import wisoft.tddstart.commerce.result.PageCarrier;
 import wisoft.tddstart.commerce.view.ProductView;
 import wisoft.tddstart.commerce.view.SellerMeView;
-import wisoft.tddstart.commerce.view.SellerView;
 
 public record TestFixture(TestRestTemplate client, ProductRepository productRepository) {
 
