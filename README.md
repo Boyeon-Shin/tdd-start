@@ -449,3 +449,37 @@
 - [x] 마지막 페이지를 올바르게 반환한다
 - [x] continuationToken 매개변수에 빈 문자열이 지정되면 첫 번째 페이지를 반환한다
 - [x] 문의 이메일 주소를 올바르게 설정한다
+
+
+### 판매자 문의 이메일 주소 변경
+
+요청
+- 메서드: POST
+- 경로: /seller/changeContactEmail
+- 헤더
+  ```
+  Authorization: Bearer {accessToken}
+  ```
+- 본문
+  ```
+  ChangeContactEmailCommand {
+    contactEmail: string
+  }
+  ```
+- curl 명령 예시
+  ```bash
+  curl -i -X POST 'http://localhost:8080/seller/changeContactEmail' \
+  -H 'Authorization: Bearer {accessToken}' \
+  -H 'Content-Type: application/json' \
+  -d '{
+    "contactEmail": "contact2@example.com"
+  }'
+  ```
+
+성공 응답
+- 상태코드: 204 No Content
+
+테스트
+- [x] 올바르게 요청하면 204 No Content 상태코드를 반환한다
+- [x] contactEmail 속성이 올바르게 지정되지 않으면 400 Bad Request 상태코드를 반환한다
+- [x] 문의 이메일 주소를 올바르게 변경한다
